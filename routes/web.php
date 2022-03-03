@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -12,11 +14,16 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+Route::get('/prototype', [HomeController::class, 'index']);
+Route::resources([
+    '/proto/transaction' => TransactionController::class
+]);
 
-Route::get('/{path?}', function () {
-    return view('app');
-});
+// Route::get('/{path?}', function () {
+//     return view('app');
+// });
 
-Auth::routes();
+// Route::get('/login', function() {
+//     return view('app');
+// })->name('login');
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

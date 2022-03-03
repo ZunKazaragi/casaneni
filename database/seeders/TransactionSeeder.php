@@ -6,16 +6,19 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DatabaseSeeder extends Seeder
+class TransactionSeeder extends Seeder
 {
     /**
-     * Seed the application's database.
+     * Run the database seeds.
      *
      * @return void
      */
     public function run()
     {
-        // $this->call(UserSeeder::class);
-        $this->call(TransactionSeeder::class);
+        DB::table('transactions')->insert([
+            'created_at' => now(),
+            'balance' => 1000000,
+            'profit' => 0
+        ]);
     }
 }

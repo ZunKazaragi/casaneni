@@ -15,12 +15,16 @@ import ListItemText from '@mui/material/ListItemText'
 import InboxIcon from '@mui/icons-material/MoveToInbox'
 import MailIcon from '@mui/icons-material/Mail'
 
+import { useAuth } from "../hooks/use-auth";
+
 import { Routes, Link } from 'react-router-dom'
 
 export default function Navbar (props) {
     const [state, setState] = React.useState({
         openSideBar: false
     })
+
+    const auth = useAuth();
 
     const toggleDrawer = open => event => {
         if (
@@ -95,9 +99,17 @@ export default function Navbar (props) {
                     >
                         {props.title}
                     </Typography>
-                    <Button color='inherit' component={Link} to={'/login'}>
-                        Login
-                    </Button>
+                    {auth.user ? (
+                        <React.Fragment>
+                            <Link to="/account">Account ({auth.user.email})</Link>
+                            <Button onClick={() => auth.signout()}>Signout</Button>
+                        </React.Fragment>
+                        ):(
+                        <Button color='inherit' component={Link} to={'/login'}>
+                            Login
+                        </Button>
+                        )
+                    }
                 </Toolbar>
             </AppBar>
         </Box>

@@ -2,20 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
-
     /**
      * Show the application dashboard.
      *
@@ -24,5 +16,24 @@ class HomeController extends Controller
     public function index()
     {
         return view('home');
+    }
+
+    public function login(Request $request) {
+        $credentials = $request->validate([
+            "username" => "required|string",
+            "password" => "required|string",
+        ]);
+
+        if (Auth::attempt($credentials)) {
+            $user = User::where('username', $request->username)->first();
+            return response()->json([
+                'authorization' => true,
+                'viewer' => $user
+            ], 200);
+        }
+
+        return response()->json([
+            'message' => 'Credential Not Found'
+        ], 404);
     }
 }
